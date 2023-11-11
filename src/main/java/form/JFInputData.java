@@ -5,6 +5,11 @@
  */
 package form;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+
+
 /**
  *
  * @author juanc
@@ -34,6 +39,7 @@ public class JFInputData extends javax.swing.JFrame {
         FTFCarPlate = new javax.swing.JFormattedTextField();
         FTFDate = new javax.swing.JFormattedTextField();
         FTFTime = new javax.swing.JFormattedTextField();
+        BTNSubmit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,12 +83,19 @@ public class JFInputData extends javax.swing.JFrame {
             }
         });
 
+        BTNSubmit.setText("Check Pico y Placa");
+        BTNSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNSubmitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(80, 80, 80)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -96,18 +109,23 @@ public class JFInputData extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(FTFDate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(FTFTime, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(14, 128, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addComponent(jLabel1)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(BTNSubmit)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(25, 25, 25)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(FTFCarPlate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -119,7 +137,9 @@ public class JFInputData extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(FTFTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(BTNSubmit)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,6 +153,37 @@ public class JFInputData extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FTFTimeActionPerformed
 
+    private void BTNSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSubmitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BTNSubmitActionPerformed
+
+    
+    private boolean checkValidPlate(){
+        
+        //TODO: IMPLEMENT METHOD
+        return true;
+    }
+    
+    
+     private boolean checkValidDate() throws ParseException{
+        
+        SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy");
+        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
+        timeFormat.parse(FTFDate.getText());
+        return true; 
+     
+    }
+    
+     
+     private boolean checkValidTime() throws ParseException{
+        
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
+        timeFormat.parse(FTFTime.getText());
+        return true;
+        
+     
+    }
     /**
      * @param args the command line arguments
      */
@@ -169,6 +220,7 @@ public class JFInputData extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNSubmit;
     private javax.swing.JFormattedTextField FTFCarPlate;
     private javax.swing.JFormattedTextField FTFDate;
     private javax.swing.JFormattedTextField FTFTime;

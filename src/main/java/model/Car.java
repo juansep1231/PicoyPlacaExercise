@@ -16,6 +16,14 @@ public class Car {
         this.carPlate = carPlate;
     }
 
+    
+    private int getLastDigitOfThePlate(){
+        
+        return this.carPlate.charAt(this.carPlate.length() - 1);
+        
+    }
+    
+    
     public String getCarPlate() {
         return carPlate;
     }
@@ -24,9 +32,4 @@ public class Car {
         this.carPlate = carPlate;
     }
     
-    private int getLastDigitOfThePlate(){
-        //TO DO: Implement method
-        
-        return 0;
-    }
 }
