@@ -33,7 +33,9 @@ public class PicoYPlaca {
 
     
     public boolean checkPlateRestriction(){
-        if (checkRestrictedDay() || checkRestrictedTime()) {
+        if(checkRestrictedDay())
+            return false;
+        if (checkRestrictedTime()) {
             List<Integer> restrictedPlateNumbers = getRestrictionsForDay();
             int lastPlateNumber = getLastDigitOfThePlate();
             return restrictedPlateNumbers.contains(lastPlateNumber);
