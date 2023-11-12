@@ -23,16 +23,14 @@ public class PicoYPlaca {
     final String morningEndTime; 
     final String nightStartTime;
     final String nightEndTime;
+    private DateTime dateAndTime;
     
-    private String date;
-    private String time;
     private Car car;
 
 
     
-    public PicoYPlaca(String date, String time, Car car) {
-        this.date = date;
-        this.time = time;
+    public PicoYPlaca(Car car,DateTime dateAndTimeInput) {
+        this.dateAndTime = dateAndTimeInput;
         this.car = car;
         this.morningStartTime = "07:00";
         this.morningEndTime = "09:30";
@@ -41,93 +39,45 @@ public class PicoYPlaca {
     }
 
     
-    
-    
-   
     public boolean checkPlateRestriction(){
-        String day = getDayOfTheWeek();
-        int dayIndex = getDayOfTheWeekIndex(day);
-        int lastPlateNumber = getLastDigitOfThePlate();
-        
-        if(checkTimeRange(morningStartTime,morningEndTime,time)
-                || checkTimeRange(nightStartTime, nightEndTime, time))
-            return false;
-        
-        if(checkWeekend(dayIndex))
-            return false;
-        
-        List<Integer> restrictedPlateNumbers = DaysWithPlateRestrictions.values()[dayIndex]
-                .getListOfRestrictions();
-        
-        return restrictedPlateNumbers.contains(lastPlateNumber);
-       
-    }
-    
-    private boolean checkTimeRange(String startTimeStr, 
-        String endTimeStr, String timeToCheckInput){
-        
-        LocalTime startTime = LocalTime.parse(startTimeStr);
-        LocalTime endTime = LocalTime.parse(endTimeStr);
-        LocalTime timeToCheck = LocalTime.parse(timeToCheckInput);
-
-        return !timeToCheck.isBefore(startTime) &&
-                !timeToCheck.isAfter(endTime);
-          
-    }
-    
-    private boolean checkWeekend(int dayIndex){
-        return dayIndex == 5 || dayIndex == 6;
-    }
-    
-    
-   private int getDayOfTheWeekIndex(String dayOfTheWeek){
-        
-      final DaysWithPlateRestrictions[] daysOfTheWeek = 
-              DaysWithPlateRestrictions.values();
-        
-      for (int i = 0; i < daysOfTheWeek.length; i++) {
-            if (daysOfTheWeek[i].name().equalsIgnoreCase(dayOfTheWeek)) {
-                return i;
-            }
+        if (checkRestrictedDay() || checkRestrictedTime()) {
+            List<Integer> restrictedPlateNumbers = getRestrictionsForDay();
+            int lastPlateNumber = getLastDigitOfThePlate();
+            return restrictedPlateNumbers.contains(lastPlateNumber);
         }
-        return -1; 
+        return false;
+    }
+
+    private boolean checkRestrictedDay() {
+        String day = dateAndTime.getDayOfTheWeek();
+        int dayIndex = dateAndTime.getDayOfTheWeekIndex(day);
+        return dateAndTime.checkWeekend(dayIndex);
+    }
+
+    private boolean checkRestrictedTime() {
+        boolean checkMorningRange = dateAndTime.
+                checkTimeRange(morningStartTime,
+                               morningEndTime, dateAndTime.getTime());
+        
+         boolean checkNightRange = dateAndTime.
+                checkTimeRange(nightStartTime,
+                               nightEndTime, dateAndTime.getTime());
+        
+        return checkMorningRange || checkNightRange;
+                
+    }
+
+    private List<Integer> getRestrictionsForDay() {
+        String day = dateAndTime.getDayOfTheWeek();
+        int dayIndex = dateAndTime.getDayOfTheWeekIndex(day);
+        return DaysWithPlateRestrictions.values()[dayIndex].getListOfRestrictions();
     }
     
     private int getLastDigitOfThePlate(){
-        
-        return this.car.getCarPlate().charAt(this.car.getCarPlate().length() - 1);
-        
+        char lastDigitOfThePlate = this.car.getCarPlate().
+                                   charAt(this.car.getCarPlate().length() - 1);
+        return Character.getNumericValue(lastDigitOfThePlate);
     }
     
-    private String getDayOfTheWeek(){
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(this.date, formatter); 
-        String dayName = date.getDayOfWeek()
-                .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        
-        return dayName;
-        
-    }
-    
-    
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-    
-    
-    
-    
+   
 }
