@@ -64,8 +64,7 @@ public class PicoYPlaca {
                 || checkTimeRange(nightStartTime, nightEndTime, time))
             return false;
         
-        if(checkTimeRange(morningStartTime,morningEndTime,time)
-                || checkTimeRange(nightStartTime, nightEndTime, time))
+        if(checkWeekend(dayIndex))
             return false;
         
         List<Integer> restrictedPlateNumbers = DaysWithPlateRestrictions.values()[dayIndex]
@@ -85,6 +84,10 @@ public class PicoYPlaca {
         return !timeToCheck.isBefore(startTime) &&
                 !timeToCheck.isAfter(endTime);
           
+    }
+    
+    private boolean checkWeekend(int dayIndex){
+        return dayIndex == 5 || dayIndex == 6;
     }
     
     
