@@ -7,8 +7,16 @@ package com.mycompany.picoyplacapredictor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.DaysWithPlateRestrictions;
 
 /**
  *
@@ -20,20 +28,27 @@ public class PicoYPlacaPredictor {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        try {
-            boolean flag = checkValidTime();
-            System.out.println("buenisima");
-                    } catch (ParseException ex) {
-            System.out.println("mala fecha");
+        
+   
+        
+           int indice = getDayOfTheWeekIndexEnum("monday");
+           System.out.println(indice);
+    }
+    
+    
+    public static int getDayOfTheWeekIndexEnum(String dayOfTheWeek){
+        
+      final DaysWithPlateRestrictions[] daysOfTheWeek = DaysWithPlateRestrictions.values();
+        
+      for (int i = 0; i < daysOfTheWeek.length; i++) {
+            if (daysOfTheWeek[i].name().equalsIgnoreCase(dayOfTheWeek)) {
+                return i;
+            }
         }
+        return -1; 
     }
-    public static boolean checkValidTime() throws ParseException{
-        
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
-        timeFormat.parse("5:00");
-        return true;
-        
-     
-    }
+    
+    
+    
+  
 }

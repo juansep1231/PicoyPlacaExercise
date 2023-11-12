@@ -5,6 +5,8 @@
  */
 package form;
 
+import exceptions.InvalidDateException;
+import exceptions.InvalidTimeException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -158,31 +160,34 @@ public class JFInputData extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNSubmitActionPerformed
 
     
-    private boolean checkValidPlate(){
-        
-        //TODO: IMPLEMENT METHOD
-        return true;
-    }
+
     
     
-     private boolean checkValidDate() throws ParseException{
+     private boolean checkValidDate() throws InvalidDateException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy");
         timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
+        try{
         timeFormat.parse(FTFDate.getText());
         return true; 
+        } catch(ParseException e){
+            throw new InvalidDateException("Invalid date format.");
+        }
      
     }
     
      
-     private boolean checkValidTime() throws ParseException{
+     private boolean checkValidTime() throws InvalidTimeException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
+        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date\
+        try{
         timeFormat.parse(FTFTime.getText());
         return true;
+        }catch(ParseException e){
+            throw new InvalidTimeException("Invalid time format.");
+        }
         
-     
     }
     /**
      * @param args the command line arguments

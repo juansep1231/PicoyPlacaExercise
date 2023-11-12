@@ -5,6 +5,13 @@
  */
 package model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 /**
  *
  * @author Juan Posso
@@ -45,9 +52,31 @@ public class PicoYPlaca {
     
     
     
-    private boolean checkCirculationPermit(){
-        //TO DO: Implement method
+   private int getDayOfTheWeekIndex(String dayOfTheWeek){
         
-        return true;
+      final DaysWithPlateRestrictions[] daysOfTheWeek = DaysWithPlateRestrictions.values();
+        
+      for (int i = 0; i < daysOfTheWeek.length; i++) {
+            if (daysOfTheWeek[i].name().equalsIgnoreCase(dayOfTheWeek)) {
+                return i;
+            }
+        }
+        return -1; 
     }
+    
+    
+    
+    private String getDayOfTheWeek(String dateInput){
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate date = LocalDate.parse(dateInput, formatter); // Parse the string to LocalDate
+
+        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        
+        return dayName;
+        
+    }
+    
+    
 }
