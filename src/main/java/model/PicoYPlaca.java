@@ -19,18 +19,25 @@ import java.util.Locale;
  */
 public class PicoYPlaca {
     
+    final String morningStartTime;
+    final String morningEndTime; 
+    final String nightStartTime;
+    final String nightEndTime;
+    
     private String date;
     private String time;
     private int lastDigitOfCarPlate;
 
-    public PicoYPlaca() {
-    }
 
     
     public PicoYPlaca(String date, String time, int lastDigitOfCarPlate) {
         this.date = date;
         this.time = time;
         this.lastDigitOfCarPlate = lastDigitOfCarPlate;
+        this.morningStartTime = "07:00";
+        this.morningEndTime = "09:30";
+        this.nightStartTime = "16:00";
+        this.nightEndTime = "19:30";
     }
 
     
@@ -51,22 +58,40 @@ public class PicoYPlaca {
     }
     
    
+    public boolean checkPlateRestriction(int lastPlateNumber, int dayIndex){
+        
+        if(checkTimeRange(morningStartTime,morningEndTime,time)
+                || checkTimeRange(nightStartTime, nightEndTime, time))
+            return false;
+        
+        if(checkTimeRange(morningStartTime,morningEndTime,time)
+                || checkTimeRange(nightStartTime, nightEndTime, time))
+            return false;
+        
+        List<Integer> restrictedPlateNumbers = DaysWithPlateRestrictions.values()[dayIndex]
+                .getListOfRestrictions();
+        
+        return restrictedPlateNumbers.contains(lastPlateNumber);
+       
+    }
     
     private boolean checkTimeRange(String startTimeStr, 
-            String endTimeStr, String timeToCheckStr){
+        String endTimeStr, String timeToCheckInput){
         
         LocalTime startTime = LocalTime.parse(startTimeStr);
         LocalTime endTime = LocalTime.parse(endTimeStr);
-        LocalTime timeToCheck = LocalTime.parse(timeToCheckStr);
+        LocalTime timeToCheck = LocalTime.parse(timeToCheckInput);
 
-        return !timeToCheck.isBefore(startTime) && !timeToCheck.isAfter(endTime);
+        return !timeToCheck.isBefore(startTime) &&
+                !timeToCheck.isAfter(endTime);
           
     }
     
     
    private int getDayOfTheWeekIndex(String dayOfTheWeek){
         
-      final DaysWithPlateRestrictions[] daysOfTheWeek = DaysWithPlateRestrictions.values();
+      final DaysWithPlateRestrictions[] daysOfTheWeek = 
+              DaysWithPlateRestrictions.values();
         
       for (int i = 0; i < daysOfTheWeek.length; i++) {
             if (daysOfTheWeek[i].name().equalsIgnoreCase(dayOfTheWeek)) {
@@ -81,10 +106,9 @@ public class PicoYPlaca {
     private String getDayOfTheWeek(String dateInput){
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        LocalDate date = LocalDate.parse(dateInput, formatter); // Parse the string to LocalDate
-
-        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(dateInput, formatter); 
+        String dayName = date.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         
         return dayName;
         
