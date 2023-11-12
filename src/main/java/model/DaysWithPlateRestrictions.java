@@ -18,14 +18,20 @@ public enum DaysWithPlateRestrictions {
     TUESDAY(Arrays.asList(3,4)),
     WEDNESDAY(Arrays.asList(5,6)),
     THURSDAY(Arrays.asList(7,8)),
-    FRIDAY(Arrays.asList(9,0));
+    FRIDAY(Arrays.asList(9,0)),
+    SATURDAY(),
+    SUNDAY();
     
-    final private List<Integer> listOfRestrictions;
     
-    DaysWithPlateRestrictions(List<Integer> listOfRestrictions) {
+    private List<Integer> listOfRestrictions;
+    
+    private DaysWithPlateRestrictions(List<Integer> listOfRestrictions) {
         this.listOfRestrictions = listOfRestrictions;
     }
 
+    private DaysWithPlateRestrictions() {
+    }
+    
     
     public List<Integer> getListOfRestrictions() {
         return listOfRestrictions;
