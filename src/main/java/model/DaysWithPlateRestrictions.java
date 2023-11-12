@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * Enum that contains the days of the week, each one has a list of their corresponding
+ * car plate restrictions, except for weekends.
+ * 
  * @author Juan Posso
  */
 public enum DaysWithPlateRestrictions {

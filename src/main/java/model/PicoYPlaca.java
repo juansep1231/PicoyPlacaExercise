@@ -10,7 +10,7 @@ import java.util.List;
 
 
 /**
- *
+ *Class that contains a "Pico Y Placa" restriction.
  * @author Juan Posso
  */
 public class PicoYPlaca {
@@ -31,9 +31,15 @@ public class PicoYPlaca {
         this.NIGHT_END_TIME = "19:30";
     }
 
-    
+    /**
+     * Method to check if a car plate has circulation restriction on the given
+     * date
+     * 
+     * @return true if the given plate has restriction on a given day,
+     * otherwise false.
+     */
     public boolean checkPlateRestriction(){
-        if(checkRestrictedDay())
+        if(checkWeekendRestriction())
             return false;
         if (checkRestrictedTime()) {
             List<Integer> restrictedPlateNumbers = getRestrictionsForDay();
@@ -43,12 +49,24 @@ public class PicoYPlaca {
         return false;
     }
 
-    private boolean checkRestrictedDay() {
+    /**
+     * Method to check if a day is weekend.
+     * 
+     * @return true if a day is weekend, otherwise false.
+     */
+    private boolean checkWeekendRestriction() {
         String day = this.dateAndTime.getDayOfTheWeek();
         int dayIndex = this.dateAndTime.getDayOfTheWeekIndex(day);
         return this.dateAndTime.checkWeekend(dayIndex);
     }
 
+    /**
+     * Method to check if the given time is either in the morning restriction 
+     * range or in the night restriction range.
+     * 
+     * @return true if the given time is in either of the two ranges, 
+     * otherwise false.
+     */
     private boolean checkRestrictedTime() {
         boolean checkMorningRange = this.dateAndTime.
                 checkTimeRange(this.MORNING_START_TIME,
@@ -62,6 +80,11 @@ public class PicoYPlaca {
                 
     }
 
+    /**
+     * Method to get the car plate restrictions for an especific day.
+     * 
+     * @return the list of plate restrictions from a given day
+     */
     private List<Integer> getRestrictionsForDay() {
         String day = this.dateAndTime.getDayOfTheWeek();
         int dayIndex = this.dateAndTime.getDayOfTheWeekIndex(day);
@@ -69,6 +92,10 @@ public class PicoYPlaca {
                values()[dayIndex].getListOfRestrictions();
     }
     
+    /**
+     * Method to get the last digit from a given car plate
+     * @return the last digit of the car plate
+     */
     private int getLastDigitOfThePlate(){
         char lastDigitOfThePlate = this.car.getCarPlate().
                                    charAt(this.car.getCarPlate().length() - 1);
