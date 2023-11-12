@@ -6,8 +6,8 @@
 package exceptions;
 
 /**
- *
- * @author juanc
+ * Custom exception to handle and invalid time format.
+ * @author Juan Posso
  */
 public class InvalidTimeException extends Exception{
 
