@@ -5,13 +5,9 @@
  */
 package model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.Locale;
+
 
 /**
  *
@@ -19,23 +15,20 @@ import java.util.Locale;
  */
 public class PicoYPlaca {
     
-    final String morningStartTime;
-    final String morningEndTime; 
-    final String nightStartTime;
-    final String nightEndTime;
-    private DateTime dateAndTime;
-    
+    private final String MORNING_START_TIME;
+    private final String MORNING_END_TIME; 
+    private final String NIGHT_START_TIME;
+    private final String NIGHT_END_TIME;
+    private DateTime dateAndTime; 
     private Car car;
-
-
     
     public PicoYPlaca(Car car,DateTime dateAndTimeInput) {
         this.dateAndTime = dateAndTimeInput;
         this.car = car;
-        this.morningStartTime = "07:00";
-        this.morningEndTime = "09:30";
-        this.nightStartTime = "16:00";
-        this.nightEndTime = "19:30";
+        this.MORNING_START_TIME = "07:00";
+        this.MORNING_END_TIME = "09:30";
+        this.NIGHT_START_TIME = "16:00";
+        this.NIGHT_END_TIME = "19:30";
     }
 
     
@@ -49,28 +42,29 @@ public class PicoYPlaca {
     }
 
     private boolean checkRestrictedDay() {
-        String day = dateAndTime.getDayOfTheWeek();
-        int dayIndex = dateAndTime.getDayOfTheWeekIndex(day);
-        return dateAndTime.checkWeekend(dayIndex);
+        String day = this.dateAndTime.getDayOfTheWeek();
+        int dayIndex = this.dateAndTime.getDayOfTheWeekIndex(day);
+        return this.dateAndTime.checkWeekend(dayIndex);
     }
 
     private boolean checkRestrictedTime() {
-        boolean checkMorningRange = dateAndTime.
-                checkTimeRange(morningStartTime,
-                               morningEndTime, dateAndTime.getTime());
+        boolean checkMorningRange = this.dateAndTime.
+                checkTimeRange(this.MORNING_START_TIME,
+                               this.MORNING_END_TIME, this.dateAndTime.getTime());
         
-         boolean checkNightRange = dateAndTime.
-                checkTimeRange(nightStartTime,
-                               nightEndTime, dateAndTime.getTime());
+        boolean checkNightRange = this.dateAndTime.
+                checkTimeRange(this.NIGHT_START_TIME,
+                               this.NIGHT_END_TIME, this.dateAndTime.getTime());
         
         return checkMorningRange || checkNightRange;
                 
     }
 
     private List<Integer> getRestrictionsForDay() {
-        String day = dateAndTime.getDayOfTheWeek();
-        int dayIndex = dateAndTime.getDayOfTheWeekIndex(day);
-        return DaysWithPlateRestrictions.values()[dayIndex].getListOfRestrictions();
+        String day = this.dateAndTime.getDayOfTheWeek();
+        int dayIndex = this.dateAndTime.getDayOfTheWeekIndex(day);
+        return DaysWithPlateRestrictions.
+               values()[dayIndex].getListOfRestrictions();
     }
     
     private int getLastDigitOfThePlate(){

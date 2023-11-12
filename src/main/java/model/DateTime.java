@@ -5,6 +5,10 @@
  */
 package model;
 
+import exceptions.InvalidDateException;
+import exceptions.InvalidTimeException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -16,15 +20,17 @@ import java.util.Locale;
  * @author juanc
  */
 public class DateTime {
+    private final String DATE_FORMAT;
+    private final String TIME_FORMAT;
     private String date;
     private String time;
 
     public DateTime(String date, String time) {
+        this.DATE_FORMAT = "dd/MM/yyyy";
+        this.TIME_FORMAT = "HH:mm";
         this.date = date;
         this.time = time;
     }
-    
-    
     
     public boolean checkTimeRange(String startTimeStr, 
         String endTimeStr, String timeToCheckInput){
@@ -60,7 +66,7 @@ public class DateTime {
     
     public String getDayOfTheWeek(){
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.DATE_FORMAT);
         LocalDate dateFormat = LocalDate.parse(this.date, formatter); 
         String dayName = dateFormat.getDayOfWeek()
                 .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
@@ -68,7 +74,33 @@ public class DateTime {
         return dayName;
         
     }
-
+    
+    private boolean checkValidDateFormat() throws InvalidDateException{
+        
+        SimpleDateFormat timeFormat = new SimpleDateFormat(this.DATE_FORMAT);
+        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
+        try{
+        timeFormat.parse(this.date);
+        return true; 
+        } catch(ParseException e){
+            throw new InvalidDateException("Invalid date format.");
+        }
+     
+    }
+    
+     
+     private boolean checkValidTimeFormat() throws InvalidTimeException{
+        
+        SimpleDateFormat timeFormat = new SimpleDateFormat(this.TIME_FORMAT);
+        timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date\
+        try{
+        timeFormat.parse(this.time);
+        return true;
+        }catch(ParseException e){
+            throw new InvalidTimeException("Invalid time format.");
+        }
+        
+    }
     public String getTime() {
         return time;
     }
