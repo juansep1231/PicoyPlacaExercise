@@ -26,14 +26,14 @@ public class PicoYPlaca {
     
     private String date;
     private String time;
-    private int lastDigitOfCarPlate;
+    private Car car;
 
 
     
-    public PicoYPlaca(String date, String time, int lastDigitOfCarPlate) {
+    public PicoYPlaca(String date, String time, Car car) {
         this.date = date;
         this.time = time;
-        this.lastDigitOfCarPlate = lastDigitOfCarPlate;
+        this.car = car;
         this.morningStartTime = "07:00";
         this.morningEndTime = "09:30";
         this.nightStartTime = "16:00";
@@ -41,24 +41,13 @@ public class PicoYPlaca {
     }
 
     
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
+    
     
    
-    public boolean checkPlateRestriction(int lastPlateNumber, int dayIndex){
+    public boolean checkPlateRestriction(){
+        String day = getDayOfTheWeek();
+        int dayIndex = getDayOfTheWeekIndex(day);
+        int lastPlateNumber = getLastDigitOfThePlate();
         
         if(checkTimeRange(morningStartTime,morningEndTime,time)
                 || checkTimeRange(nightStartTime, nightEndTime, time))
@@ -104,12 +93,16 @@ public class PicoYPlaca {
         return -1; 
     }
     
+    private int getLastDigitOfThePlate(){
+        
+        return this.car.getCarPlate().charAt(this.car.getCarPlate().length() - 1);
+        
+    }
     
-    
-    private String getDayOfTheWeek(String dateInput){
+    private String getDayOfTheWeek(){
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(dateInput, formatter); 
+        LocalDate date = LocalDate.parse(this.date, formatter); 
         String dayName = date.getDayOfWeek()
                 .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         
@@ -117,6 +110,22 @@ public class PicoYPlaca {
         
     }
     
+    
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
     
     
     
