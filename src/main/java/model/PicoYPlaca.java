@@ -6,6 +6,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Arrays;
@@ -49,7 +50,18 @@ public class PicoYPlaca {
         this.time = time;
     }
     
+   
     
+    private boolean checkTimeRange(String startTimeStr, 
+            String endTimeStr, String timeToCheckStr){
+        
+        LocalTime startTime = LocalTime.parse(startTimeStr);
+        LocalTime endTime = LocalTime.parse(endTimeStr);
+        LocalTime timeToCheck = LocalTime.parse(timeToCheckStr);
+
+        return !timeToCheck.isBefore(startTime) && !timeToCheck.isAfter(endTime);
+          
+    }
     
     
    private int getDayOfTheWeekIndex(String dayOfTheWeek){
@@ -77,6 +89,9 @@ public class PicoYPlaca {
         return dayName;
         
     }
+    
+    
+    
     
     
 }

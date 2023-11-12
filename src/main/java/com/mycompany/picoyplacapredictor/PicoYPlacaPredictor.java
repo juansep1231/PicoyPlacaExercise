@@ -31,22 +31,11 @@ public class PicoYPlacaPredictor {
         
    
         
-           int indice = getDayOfTheWeekIndexEnum("monday");
-           System.out.println(indice);
+           
     }
     
     
-    public static int getDayOfTheWeekIndexEnum(String dayOfTheWeek){
-        
-      final DaysWithPlateRestrictions[] daysOfTheWeek = DaysWithPlateRestrictions.values();
-        
-      for (int i = 0; i < daysOfTheWeek.length; i++) {
-            if (daysOfTheWeek[i].name().equalsIgnoreCase(dayOfTheWeek)) {
-                return i;
-            }
-        }
-        return -1; 
-    }
+   
     
     
     
