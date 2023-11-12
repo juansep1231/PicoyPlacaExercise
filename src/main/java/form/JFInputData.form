@@ -151,6 +151,9 @@
           <Format format="##/##/####" subtype="-1" type="5"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="FTFDateMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="FTFTime">
       <Properties>
@@ -162,6 +165,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="FTFTimeMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FTFTimeActionPerformed"/>
       </Events>
     </Component>

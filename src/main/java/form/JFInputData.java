@@ -85,6 +85,11 @@ public class JFInputData extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        FTFDate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FTFDateMouseClicked(evt);
+            }
+        });
 
         FTFTime.setColumns(5);
         try {
@@ -92,6 +97,11 @@ public class JFInputData extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        FTFTime.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FTFTimeMouseClicked(evt);
+            }
+        });
         FTFTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FTFTimeActionPerformed(evt);
@@ -189,9 +199,17 @@ public class JFInputData extends javax.swing.JFrame {
     }//GEN-LAST:event_FTFTimeActionPerformed
 
     private void BTNSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSubmitActionPerformed
-            try{
+        if(checkEmptyFields()){
+            JOptionPane.showMessageDialog(null, 
+                    "ALL FIELDS MUST BE FILLED",
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try{
                 DateTime dateTime = new DateTime(FTFDate.getText(),FTFTime.getText());
-                if(dateTime.checkValidDateFormat() && dateTime.checkValidTimeFormat()){
+                if(dateTime.checkValidDateFormat() && dateTime.checkValidTimeFormat() ){
                     Car car = new Car(FTFCarPlate.getText());
                     
                     PicoYPlaca picoYPlaca = new PicoYPlaca(car,dateTime);
@@ -203,6 +221,7 @@ public class JFInputData extends javax.swing.JFrame {
                          + "BE ON THE ROAD AT THE MOMENT",
                          "Pico y Placa Information", 
                          JOptionPane.WARNING_MESSAGE); 
+                         cleanValues();
                          return;
                     }
                     
@@ -211,20 +230,54 @@ public class JFInputData extends javax.swing.JFrame {
                     "Pico y Placa Information", 
                     JOptionPane.INFORMATION_MESSAGE); 
                     
-                         
+                    cleanValues();
+                   
                 }
             }catch(InvalidDateException e){
-                
+               JOptionPane.showMessageDialog(null, 
+                    "INVALID DATE FORMAT",
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
             }catch(InvalidTimeException e){
-                
+               JOptionPane.showMessageDialog(null, 
+                    "INVALID TIME FORMAT",
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
             }catch(Exception e){
-                
+                System.out.println(e);
             }
     }//GEN-LAST:event_BTNSubmitActionPerformed
 
+    
+    private boolean checkEmptyFields(){
+        
+        return 
+                !FTFCarPlate.isEditValid() ||
+                !FTFDate.isEditValid() ||
+                !FTFTime.isEditValid();
+    }
+    
+    private void cleanValues(){
+         FTFCarPlate.setValue(null);
+           FTFDate.setValue(null);
+           FTFTime.setValue(null);
+    }
+     
+    
+    
+    
     private void FTFCarPlateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FTFCarPlateMouseClicked
-        FTFCarPlate.setCaretPosition(0);        // TODO add your handling code here:
+        FTFCarPlate.setCaretPosition(0);       
     }//GEN-LAST:event_FTFCarPlateMouseClicked
+
+    private void FTFDateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FTFDateMouseClicked
+       FTFDate.setCaretPosition(0);
+        
+    }//GEN-LAST:event_FTFDateMouseClicked
+
+    private void FTFTimeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FTFTimeMouseClicked
+        FTFTime.setCaretPosition(0);
+    }//GEN-LAST:event_FTFTimeMouseClicked
 
     
 
