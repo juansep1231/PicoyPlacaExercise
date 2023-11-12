@@ -264,8 +264,6 @@ public class JFInputData extends javax.swing.JFrame {
     }
      
     
-    
-    
     private void FTFCarPlateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FTFCarPlateMouseClicked
         FTFCarPlate.setCaretPosition(0);       
     }//GEN-LAST:event_FTFCarPlateMouseClicked

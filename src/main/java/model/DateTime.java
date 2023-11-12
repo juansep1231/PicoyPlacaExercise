@@ -16,8 +16,8 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 /**
- *
- * @author juanc
+ * Class to manage date and time logic and validations.
+ * @author Juan Posso
  */
 public class DateTime {
     private final String DATE_FORMAT;
@@ -32,6 +32,15 @@ public class DateTime {
         this.time = time;
     }
     
+    /**
+     * Method to check if time if in a given range
+     * 
+     * @param startTimeStr the start time of range
+     * @param endTimeStr   the end time of a range
+     * @param timeToCheckInput the time that you would like
+     *        to check if is in the given range
+     * @return true if the time to check is in the range, otherwise false
+     */
     public boolean checkTimeRange(String startTimeStr, 
         String endTimeStr, String timeToCheckInput){
         
@@ -44,11 +53,33 @@ public class DateTime {
           
     }
     
-    public boolean checkWeekend(int dayIndex){
-        return dayIndex == 5 || dayIndex == 6;
+  
+    
+    /**
+     * Method to get the day's name, given a date.
+     * 
+     * @return the day's name that correspond to the given date
+     */
+    
+     public String getDayOfTheWeek(){
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.DATE_FORMAT);
+        LocalDate dateFormat = LocalDate.parse(this.date, formatter); 
+        String dayName = dateFormat.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        
+        return dayName;
+        
     }
     
     
+    /**
+     * Method to get the day index of an especific day 
+     * using an array of days obtained from the enum.
+     * 
+     * @param dayOfTheWeek the day's name
+     * @return the index that corresponds to the day's name
+     */
     public int getDayOfTheWeekIndex(String dayOfTheWeek){
 
        final DaysWithPlateRestrictions[] daysOfTheWeek = 
@@ -63,18 +94,22 @@ public class DateTime {
      }
    
    
-    
-    public String getDayOfTheWeek(){
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.DATE_FORMAT);
-        LocalDate dateFormat = LocalDate.parse(this.date, formatter); 
-        String dayName = dateFormat.getDayOfWeek()
-                .getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        
-        return dayName;
-        
+      /**
+     * Method to check if the day index corresponds to a weekend
+     * @param dayIndex the index of the given day
+     * @return true if the index corresponds to a weekend, otherwise false
+     */
+    public boolean checkWeekend(int dayIndex){
+        return dayIndex == 5 || dayIndex == 6;
     }
+   
     
+    /**
+     * 
+     * Method to check if the input date is in the format "dd/MM/yyyy"
+     * @return true if the given date has a valid format, otherwise false.
+     * @throws InvalidDateException 
+     */
     public boolean checkValidDateFormat() throws InvalidDateException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat(this.DATE_FORMAT);
@@ -88,7 +123,11 @@ public class DateTime {
      
     }
     
-     
+     /**
+      * Method to check if the input date is in the format "HH:mm"
+      * @return true if the given time has a valid format, otherwise false.
+      * @throws InvalidTimeException 
+      */
      public boolean checkValidTimeFormat() throws InvalidTimeException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat(this.TIME_FORMAT);
