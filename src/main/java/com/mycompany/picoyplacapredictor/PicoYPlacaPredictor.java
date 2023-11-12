@@ -30,11 +30,10 @@ public class PicoYPlacaPredictor {
     public static void main(String[] args) {
         
    
-        
-           
+      
     }
     
-    
+   
    
     
     

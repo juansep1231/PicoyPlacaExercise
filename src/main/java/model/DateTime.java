@@ -75,7 +75,7 @@ public class DateTime {
         
     }
     
-    private boolean checkValidDateFormat() throws InvalidDateException{
+    public boolean checkValidDateFormat() throws InvalidDateException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat(this.DATE_FORMAT);
         timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date
@@ -89,7 +89,7 @@ public class DateTime {
     }
     
      
-     private boolean checkValidTimeFormat() throws InvalidTimeException{
+     public boolean checkValidTimeFormat() throws InvalidTimeException{
         
         SimpleDateFormat timeFormat = new SimpleDateFormat(this.TIME_FORMAT);
         timeFormat.setLenient(false); // Setting lenient to false to strictly validate the date\
